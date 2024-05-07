@@ -4,18 +4,16 @@ import image2 from './assets/youjo-senki-cover.png'
 import image3 from './assets/venti-cover.jpg'
 
 const images = [
-  {url: image1, title: "overlord"}, 
-  {url: image2, title: "tanya"},
-  {url: image3, title: "venti"}
+  {url: image1, title: "Overlord"}, 
+  {url: image2, title: "Youjo Senki"},
+  {url: image3, title: "Genshin Impact"}
 ]
 
 function App() {
   return (
-    <>
-      <div className='w-full m-auto'>
-        <ImgSlider images={images}/>
-      </div>
-    </>
+    <div className='m-3'>
+      <ImgSlider images={images}/>
+    </div>
   )
 }
 

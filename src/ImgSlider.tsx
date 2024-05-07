@@ -1,28 +1,32 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
 import { ChevronRightIcon } from '@heroicons/react/24/solid'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import CSSTransition from 'react-transition-group/CSSTransition'
 
 type ImageSliderProps = {
     images: {
       url: string
       title: string
     }[]
-  }
+}
 
 function ImageSlider({ images }: ImageSliderProps): JSX.Element {
     const [imageIndex, setImageIndex] = useState(0)
+    const [inProp, setInProp] = useState(false)
 
-    const autoScroll = true;
     let slideInterval = -1
     const intervalTime = 3000
+    const nodeRef = useRef(null)
 
     function showNextImage() {
         setImageIndex(index => index === images.length - 1 ? 0 : index + 1)
+        setInProp(false)
     }
     
     function showPrevImage() {
         setImageIndex(index => index === 0 ? images.length - 1 : index - 1)
+        setInProp(false)
     }
 
     function auto() {
@@ -30,29 +34,31 @@ function ImageSlider({ images }: ImageSliderProps): JSX.Element {
     }
     
     useEffect(() => {
-        setImageIndex(0);
-    }, []);
-    
-    useEffect(() => {
-        if (autoScroll) {
-            auto();
-        }
+        auto()
+        setInProp(true)
         return () => clearInterval(slideInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [imageIndex]);
 
     return (
         <section className='w-full h-full relative'>
-            <div className='w-full h-full flex overflow-hidden max-h-[512px]'>
+            <div className='w-full h-full flex overflow-hidden'>
+                <div className='h-[512px] content'>
+                    <CSSTransition nodeRef={nodeRef} in={inProp} timeout={300} classNames="desc">
+                        <h2 ref={nodeRef} className='text-5xl justify-center mt-32 ml-4 font-bold font-mono max-w-fit'>
+                            {images[imageIndex].title}
+                        </h2>
+                    </CSSTransition>
+                </div>
                 {
                     images.map(({ url, title }, index) => (
-                        <>
+                        <div className='flex w-full flex-shrink-0 flex-grow-0 h-[512px]'>
                             <img key={title} src={url} 
-                            className='h-full w-full object-cover block flex-shrink-0 flex-grow-0'
-                            aria-hidden={imageIndex !== index}
+                            className='object-cover w-full h-full min-h-[728px]'
+                            aria-hidde={imageIndex !== index}
                             style={{translate: `${-100 * imageIndex}%`, transition: "translate 500ms ease-in-out"}}
                             />
-                        </>
+                        </div>
                     ))
                 }
                 <button onClick={showPrevImage} className='img-slider-btn' style={{left: "0"}}><ChevronLeftIcon/></button>
