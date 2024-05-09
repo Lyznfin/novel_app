@@ -8,6 +8,7 @@ type ImageSliderProps = {
     images: {
       url: string
       title: string
+      description: string
     }[]
 }
 
@@ -32,7 +33,7 @@ function ImageSlider({ images }: ImageSliderProps): JSX.Element {
     function auto() {
         slideInterval = setInterval(showNextImage, intervalTime);
     }
-    
+
     useEffect(() => {
         auto()
         setInProp(true)
@@ -43,11 +44,16 @@ function ImageSlider({ images }: ImageSliderProps): JSX.Element {
     return (
         <section className='w-full h-full relative'>
             <div className='w-full h-full flex overflow-hidden'>
-                <div className='h-[512px] content'>
-                    <CSSTransition nodeRef={nodeRef} in={inProp} timeout={300} classNames="desc">
-                        <h2 ref={nodeRef} className='text-5xl justify-center mt-32 ml-4 font-bold font-mono max-w-fit'>
-                            {images[imageIndex].title}
-                        </h2>
+                <div className='h-[512px] content overflow-hidden'>
+                    <CSSTransition nodeRef={nodeRef} in={inProp} timeout={500} classNames="desc">
+                        <div ref={nodeRef} className='justify-center mt-24 ml-4 max-w-lg max-h-64 overflow-hidden'>
+                            <h2 className='text-5xl font-bold font-mono max-w-fit'>
+                                {images[imageIndex].title}
+                            </h2>
+                            <p className='mt-4 font-mono max-w-fit'>
+                                {images[imageIndex].description}
+                            </p>
+                        </div>
                     </CSSTransition>
                 </div>
                 {
@@ -56,13 +62,13 @@ function ImageSlider({ images }: ImageSliderProps): JSX.Element {
                             <img key={title} src={url} 
                             className='object-cover w-full h-full min-h-[728px]'
                             aria-hidde={imageIndex !== index}
-                            style={{translate: `${-100 * imageIndex}%`, transition: "translate 500ms ease-in-out"}}
+                            style={{translate: `${-100 * imageIndex}%`, transition: "translate 500ms ease-in-out", zIndex: "0"}}
                             />
                         </div>
                     ))
                 }
-                <button onClick={showPrevImage} className='img-slider-btn' style={{left: "0"}}><ChevronLeftIcon/></button>
-                <button onClick={showNextImage} className='img-slider-btn' style={{right: "0"}}><ChevronRightIcon/></button>
+                <button onClick={showPrevImage} className='img-slider-btn' style={{left: "0", backgroundColor: "rgba(0, 0, 0, 1)"}}><ChevronLeftIcon/></button>
+                <button onClick={showNextImage} className='img-slider-btn' style={{right: "0", backgroundColor: "rgba(0, 0, 0, 0)", position: "absolute", zIndex: "1"}}><ChevronRightIcon/></button>
             </div>
         </section>
     )
