@@ -10,9 +10,9 @@ const images = [
 
 import productData from './data.tsx'
 
-import ImgSlider from './ImgSlider.tsx'
-import Navbar from './Navbar.tsx'
-import Card from './Card.tsx'
+import ImgSlider from './components/ImgSlider.tsx'
+import Navbar from './components/Navbar.tsx'
+import Card from './components/Card.tsx'
 
 function App() {
   return (

@@ -1,5 +1,4 @@
 function Navbar(){
-
     return (
         <nav className='flex items-center max-w-full w-full h-16 p-2 pt-1 absolute z-10 backdrop-blur-sm' style={{background: "rgba(0, 0, 0, 0.5)"}}>
             <ul className="float-left w-3/4 flex justify-start items-center ml-16">
